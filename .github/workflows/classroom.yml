@@ -1,0 +1,56 @@
+name: Autograding Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+  repository_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      # to validate: check that we can import functions from calculator.py
+      - name: Check calculator module setup
+        id: validate_code
+        run: |
+          echo "Testing if calculator.py is valid..."
+          python3 - <<'EOF'
+          try:
+              from calculator import multiply, add, subtract, divide, square, cube
+          except ImportError as e:
+              print("ERROR: calculator.py is missing required functions or has syntax errors.")
+              print(e)
+              exit(1)
+          except Exception as e:
+              print("ERROR: calculator.py has runtime issues.")
+              print(e)
+              exit(1)
+          else:
+              print("calculator.py is valid.")
+          EOF
+
+      - name: Run function tests and capture results
+        id: pytest-calculator
+        run: |
+          pytest test_calculator.py --tb=short --no-header --junitxml=results.xml
