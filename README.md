@@ -1,14 +1,6 @@
 # Assignment: functions
 
-## How to clone this repo
-
-Clone this repository by clicking the green button in the upper right corner, selecting `SSH` and copying the string that looks like `git@github.com:code4policy/<REPO-NAME>.git` (`<REPO-NAME>` will be the name of your repository). Then, in the terminal run the following:
-
-```
-git clone git@github.com:code4policy/<REPO-NAME>.git
-```
-
-Note that by default, git will clone the repository into a folder with name `<REPO-NAME>`. After the repo is cloned, open that directory (use `cd`).
+As usual, clone this repo to your `assignments` directory (or wherever you like to work). 
 
 ## Python 
 
